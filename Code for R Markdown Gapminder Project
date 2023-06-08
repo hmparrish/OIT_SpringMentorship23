@@ -1,0 +1,292 @@
+---
+title: "Quality of Life in Eastern Europe Countries"
+author: "Hayley Parrish"
+date: "June 2023"
+output:
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+  html_document:
+    toc: yes
+    toc_depth: 2
+    theme: united 
+  word_document:
+    toc: yes
+    toc_depth: '2'
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, NULL = FALSE)
+source(file = "plots.R")
+```
+
+# Introduction
+
+## Gapminder
+
+The Gapminder dataset contains the health and income outcomes for 184 countries from 1960 to 2016. In this project, I will be using the gapminder data set to compare the health and overall quality of life of Eastern European countries to the general population of Europe from 1960 to 2016 over different regime changes. *For more information on this data set please visit [gapminder.org](https://www.gapminder.org/)*
+
+## Regime Changes
+
+For the purpose of this project, regime changes refer specifically to changes in Russian leadership and policy. I will be focusing on three specific eras:
+
+1.  Soviet Union 1960-1990
+2.  Post Soviet Union 1991-2011
+3.  Putin Second Term 2012-2016
+
+## Variables
+
+### The variables being measured will be:
+
+-   Population
+-   GDP
+-   Life Expectancy
+-   Fertility
+-   Infant Mortality
+
+# Area of Focus
+
+The gapminder defines "Eastern Europe" as follow:
+
+-  Russia 
+-  Ukraine
+-  Poland 
+-  Romania
+-  Slovak Republic
+-  Moldova 
+-  Bulgaria
+-  Belarus 
+-  Hungary 
+-  Czech Republic
+
+```{r fig.width= 5, fig.height = 3.5}
+knitr::include_graphics("map_web.png")
+```
+
+
+------------------------------------------------------------------------
+
+# The Data
+
+## Population
+
+```{r}
+EE_Pop %>%
+  group_by(regime_change) %>%
+  summarise(avg = mean(population, na.rm = TRUE)) %>%
+  kable(caption = "Average Population in Eastern Europe")
+
+```
+
+
+
+```{r}
+Europe_Pop %>%
+  group_by(regime_change) %>%
+  summarise(avg = mean(population, na.rm = TRUE)) %>%
+  kable(caption = "Average Population in Eastern")
+
+
+ggplot()+
+          geom_boxplot(data = EE_Pop, aes(x = population,
+                                          y = reorder(country, desc(country))), color = "maroon") +
+          geom_boxplot(data = Europe_Pop, aes(x = population,
+                                              y = continent), color = "pink") +
+          scale_y_discrete() +
+          facet_wrap(~regime_change) +
+          labs(title = "Population in Eastern Europe vs Europe 1960-2016", 
+               subtitle = "by country",
+               caption = "data source: dslabs package",
+               x = "population",
+               y = "country") +
+          theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+ggplot()+
+  geom_point(data = EE_infantMort, aes(x = population, y = year, color = country))+
+   #facet_wrap(~regime_change) +
+    scale_x_log10() + 
+    coord_flip()
+       labs(title = "Population in Eastern Europe 1960-2016", 
+         subtitle = "by country",
+         caption = "data source: dslabs package",
+         x = "population",
+         y = "country") +
+      theme_grey() 
+```
+
+
+## GDP
+
+```{r}
+EE_GDP %>%
+  group_by(regime_change) %>%
+  summarise(avg = mean(gdp, na.rm = TRUE)) %>%
+  kable(caption = "Average GDP in Eastern Europe")
+
+Europe_GDP %>%
+  group_by(regime_change) %>%
+  summarise(avg = mean(gdp, na.rm = TRUE)) %>%
+  kable(caption = "Average GDP in Europe")
+  
+ggplot()+
+          geom_boxplot(data = EE_GDP, aes(x = gdp, y = reorder(country, desc(country))), color = "maroon") +
+          geom_boxplot(data = Europe_GDP, aes(x = gdp, y = continent), color = "pink") +
+          scale_y_discrete() +
+          facet_wrap(~regime_change) +
+          labs(title = "GDP in Eastern Europe vs Europe 1960-2016", 
+               subtitle = "by country",
+               caption = "data source: dslabs package",
+               x = "gdp",
+               y = "country") +
+          theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+ggplot()+
+    geom_point(data = EE_infantMort, aes(x = gdp, y = year, color = country))+
+    #facet_wrap(~regime_change) +
+    scale_x_log10() + 
+    coord_flip()
+    labs(title = "GDP in Eastern Europe 1960-2016", 
+       subtitle = "by country",
+       caption = "data source: dslabs package",
+       x = "gdp",
+       y = "country") +
+    theme_grey()
+```
+
+**Observations**\
+\> A noteable amount of data is missing from this portion of the gapminder data set and results may be skewed or missing. 
+
+------------------------------------------------------------------------
+
+## Life Expectancy
+
+```{r}
+EE_GDP %>%
+  group_by(regime_change) %>%
+  summarise(avg = mean(life_expectancy, na.rm = TRUE)) %>%
+  kable(caption = "Average Life Expectancy in Eastern Europe")
+
+Europe_GDP %>%
+  group_by(regime_change) %>%
+  summarise(avg = mean(life_expectancy, na.rm = TRUE)) %>%
+  kable(caption = "Average Life Expectancy in Europe")
+
+ggplot()+
+      geom_boxplot(data = EE_LifeExp, aes(x = life_expectancy, y = country), color = "maroon") +
+      geom_boxplot(data = Europe_LifeExp, aes(x = life_expectancy, y = continent), color = "pink") +
+  scale_x_log10()+      
+  facet_wrap(~regime_change) +
+              labs(title = "Average Life Expetancy in Eastern Europe vs Europe 1960-2016", 
+               subtitle = "by country",
+               caption = "data source: dslabs package",
+               x = "Average Life Span",
+               y = "country") +
+          theme_grey()
+
+ggplot()+
+         geom_point(data = EE_infantMort, aes(x = life_expectancy, y = year, color = country))+
+         #facet_wrap(~regime_change) +
+         scale_x_log10() + 
+         coord_flip()
+       labs(title = "Life Expectancy in Eastern Europe 1960-2016", 
+            subtitle = "by country",
+            caption = "data source: dslabs package",
+            x = "Average Life Span",
+            y = "country") +
+         theme_grey()  
+```
+
+
+------------------------------------------------------------------------
+
+## Fertility
+
+```{r}
+EE_Fertility %>%
+  group_by(regime_change) %>%
+  summarise(avg = mean(fertility, na.rm = TRUE)) %>%
+  kable(caption = "Average Number of Children per Woman in Eastern Europe")
+
+Europe_Fertility %>%
+  group_by(regime_change) %>%
+  summarise(avg = mean(fertility, na.rm = TRUE)) %>%
+  kable(caption = "Average Number of Children per Woman in Europe")
+
+ggplot()+
+    geom_boxplot(data = EE_Fertility, aes(x = fertility, y = reorder(country, desc(country))), color = "maroon") +
+    geom_boxplot(data = Europe_Fertility, aes(x = fertility, y = continent), color = "pink") +
+    scale_y_discrete() +
+    scale_x_log10() +
+  facet_wrap(~regime_change) +
+    labs(title = "Fertility in Eastern Europe vs Europe 1960-2016", 
+         subtitle = "by country",
+         caption = "data source: dslabs package",
+         x = "Average # of children per woman",
+         y = "country") +
+    theme_grey()
+
+ggplot()+
+         geom_point(data = EE_infantMort, aes(x = fertility, y = year, color = country))+
+         #facet_wrap(~regime_change) +
+         scale_x_log10() + 
+         coord_flip()
+       labs(title = "Fertility in Eastern Europe 1960-2016", 
+            subtitle = "by country",
+            caption = "data source: dslabs package",
+            x = "Average Number of Children per woman",
+            y = "country") +
+         theme_grey()
+```
+
+
+------------------------------------------------------------------------
+
+## Infant Morality
+
+```{r}
+
+EE_infantMort %>%
+  group_by(regime_change) %>%
+  summarise(avg = mean(infant_mortality, na.rm = TRUE)) %>%
+  kable(caption = "Average Rate of Infant Mortality in Eastern Europe")
+
+Europe_InfantMort %>%
+  group_by(regime_change) %>%
+  summarise(avg = mean(infant_mortality, na.rm = TRUE)) %>%
+  kable(caption = "Average Rate of Infant Mortality in Europe")
+
+ggplot()+
+          geom_boxplot(data = EE_infantMort, aes(x = infant_mortality, y = country), color = "maroon") +
+          geom_boxplot(data = Europe_InfantMort, aes(x = infant_mortality, y = continent), color = "pink") +
+          scale_y_discrete() +
+          scale_x_log10()+
+  facet_wrap(~regime_change) +
+          labs(title = "Infant Mortality in Eastern Europe vs Europe 1960-2016", 
+               subtitle = "by country",
+               caption = "data source: dslabs package",
+               x = "Infant Morality per 1000 babies",
+               y = "country") +
+          theme_grey()
+
+
+
+ggplot()+
+  geom_point(data = EE_infantMort, aes(x = infant_mortality, y = year, color = country))+
+  #facet_wrap(~regime_change) +
+  scale_x_log10() + 
+  coord_flip()
+  labs(title = "Average Infant Mortality in Eastern Europe 1960-2016", 
+       subtitle = "by country",
+       caption = "data source: dslabs package",
+       x = "Infant Morality per 1000 babies",
+       y = "country") +
+  theme_grey()
+```
+
+
+------------------------------------------------------------------------
+
+# Summary
+
+Overall, the quality of life in Eastern Europe has steadily increased over time.
