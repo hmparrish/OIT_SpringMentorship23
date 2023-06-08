@@ -1,0 +1,120 @@
+---
+name: Hayley
+surname: Parrish
+location: Richmond, Virginia
+pronouns: she/they
+phone: Redacted
+email: Redacted
+github: github.com/hmparrish
+linkedin: linkedin.com/in/hmparrish98/
+date: "`r format(Sys.time(), '%B %Y')`"
+output: vitae::hyndman
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(vitae)
+```
+# Professional Expirence 
+
+## __Cerebral__
+_Operations Admin_
+_April 2022 - November 2022_
+
+- Create + Adjust KPIs/OKRs as needed for  high-paced startup environment 
+- Lead and execute all special projects for clinical supervision and DEA
+initiatives
+- Perform data inquiries via Looker and SQL
+- Manage databases via Airtable for the clinical team
+- Manage a team of 200 supervisory MDs; performing audits, technical support and HR duties as needed 
+- Collaborate with recruiting team to adjust hiring targets for physicians 
+
+## __Cerebral__
+_Clinical Coordinator & Mentor_
+_April 2021- March 2022_
+
+- Manage portfolio of +1200 active clients across all 50 states 
+- Utilize Zendesk to communicate with clients, pharmacies, and insurance providers
+- Pilot extended mentorship program for those consistently not meeting SLA
+- Held live training sessions and create tailored training materials for new hires
+- Consistently held high monthly review scores and broke records for client messages responded to per day
+
+## __Gates Hudson__
+_Leasing Manager_
+_August 2020 - April 2021_
+
+-  Function as the sole consultant for 102 apartments and maintained at least 95% occupancy at all times 
+-  Manage B2B accounts 
+-  Communicate with leads via CRM 
+-  Collect and analyze data from competitors to determine pricing on weekly basis
+-  Create property-specific training materials for leasing and management departments
+-  Created lead tracking system for myself and all sister buildings in the area
+
+## __Cedar Fair__
+_Supervising Coach_, 
+<div align="right"> _August 2014 - November 2018_
+
+- Train and supervise groups of 30+ and mentor junior coaches
+- Created a feedback and scoring system that became standard within the company
+- Bridge communication between corporate and actors 
+- Assist actors in crafting their “character” and improving performance 
+- Collaborated with other coaches to create a welcoming and creative workplace culture   
+
+
+# Education
+
+
+```{r}
+library(tibble)
+tribble(
+  ~ Degree, ~ Year, ~ Institution, ~ Major,
+  "Bachelor of Science", "2020", "Virginia Commonwealth University", "Psychology, Gender Studies, Global Education & Leadership",
+) %>% 
+  detailed_entries(Degree, Year, Institution, Major)
+
+```
+
+# Extracurricular
+
+- Honor Council member
+- SAVES Domestic Violence Education + Prevention PR Chair 
+- WVCW Student Radio show host
+- GLOBE student ambassador
+- EXCELL Early Math & Literacy teaching aid
+- Revive! Narcan certified 
+- TV99 Intern
+- Virginia Governor's School for Humanities program student
+- DOTM Robotics team member
+- ITS Honor Society member
+
+
+# Skills 
+```{r}
+Skills <- tribble(  
+~area, ~skills,
+"R, Markdown, Data Analysis, Database Managment, SQL, Looker", "Technical",
+"Agile, Waterfall, Asana, Google Suite, Workramp, Airtable, Microsoft Office", "Project Managment",
+"Zendesk, Jira, Patient Scheduling, Slack, Crisis Managment, IT Support", "Customer Support",
+"Photoshop, Canva, Video Editing, Video Production, Indesign, Zetta Systems", "Creative") 
+
+Skills %>%
+  detailed_entries(
+    with = area, 
+    what = skills)
+```
+
+# Certifications 
+
+```{r}
+Certs <- tribble(  
+~ year, ~ desc , ~ name,
+ 2019, "Recieved on completion of statics coursework and specialist testing", "IBM SPSS Specialist",
+ 2020, "Recieved on completion of leadership coursework and 50+ volunteer hours", "Peace Corp Preperation",
+ 2021, "Recieved on completion of fair housing + ethics coursework", "NAHMA FHC") 
+
+Certs %>%
+  detailed_entries(
+    with = desc, 
+    what = name,
+    when = year)
+```
